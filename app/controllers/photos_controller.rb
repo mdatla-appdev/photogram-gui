@@ -50,8 +50,8 @@ a_new_photo.save
 
 
   # render({ :template => "photo_templates/create.html.erb"})
-
-  redirect_to("/photos/" + a_new_photo.id.to_s)
+  next_url = "/photos/" + a_new_photo.id.to_s
+  redirect_to(next_url)
 end
 
 def update
@@ -70,6 +70,32 @@ input_caption = params.fetch("query_caption")
 
 the_photo.save
 
-  render({ :template => "photo_templates/update.html.erb"})
+ # render({ :template => "photo_templates/update.html.erb"})
+
+next_url = "/photos/" + the_photo.id.to_s
+redirect_to(next_url)
+ 
+end
+
+def comment 
+
+ # Parameters: {"query_photo_id"=>"777", "query_author_id"=>"117", "query_body"=>"hello"}
+ 
+ input_photo_id = params.fetch("query_photo_id")
+ input_author_id = params.fetch("query_author_id")
+ input_body = params.fetch("query_body")
+
+
+a_new_comment = Comment.new
+a_new_comment.author_id = input_author_id
+a_new_comment.body = input_body
+a_new_comment.photo_id = input_photo_id
+
+a_new_comment.save
+
+next_url = "/photos/" + a_new_comment.photo_id.to_s
+redirect_to(next_url)
+
+ # render ({ :template => "photo_templates/comment.html.erb"})
 end
 end
